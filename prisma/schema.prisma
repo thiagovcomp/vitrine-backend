@@ -15,69 +15,334 @@ datasource db {
 
 
 // criar uma migration: yarn prisma migrate dev
+model Company {
+  id Int @id @default(autoincrement())
+  uuid String @default(uuid()) @db.VarChar(45)
+  name String @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  deleted_at DateTime? 
+  user_id_created Int?
+  user_id_updated Int?
+
+  user User[]
+  agenda Agenda[]
+  client Client[]
+
+  @@map("companys")
+}
+
+model Role {
+  id Int @id @default(autoincrement())
+  uuid String @default(uuid()) @db.VarChar(45)
+  name String @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  deleted_at DateTime? 
+  user_id_created Int?
+  user_id_updated Int?
+
+  userOnRole UserOnRole[]
+  @@map("roles")
+}
+
 model User {
-  id String @id @default(uuid())
-  name String
-  email String
-  password String
-  created_at DateTime? @default(now())
-  updated_at DateTime? @default(now())
+  id Int @id @default(autoincrement())
+  company_id Int 
+  company Company @relation( fields: [company_id], references: [id])
+  uuid String @default(uuid()) @db.VarChar(45)
+  name String @db.VarChar(255)
+  email String @db.VarChar(100) @unique
+  phone String? @db.VarChar(45)
+  password String @db.VarChar(100)
+  valid ValidType @default(NAO)
+  active ActiveType @default(SIM)  
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  deleted_at DateTime? 
+  user_id_created Int?
+  user_id_updated Int?
+
+  agenda Agenda[]
+  agendaOnUser AgendaOnUser[]
+  userOnRole UserOnRole[]
+  client Client[]
 
   @@map("users")
 }
 
-model Category{
-  id String @id @default(uuid())
-  name String
-  created_at DateTime? @default(now())
-  updated_at DateTime? @default(now())
+model UserOnRole {
+  id Int @id @default(autoincrement())
 
-  @@map("categories")
-  products Product[]
+  user_id Int 
+  user User @relation( fields: [user_id], references: [id])
+  role_id Int 
+  role Role @relation( fields: [role_id], references: [id])
+  uuid String @default(uuid()) @db.VarChar(45)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  deleted_at DateTime? 
+  user_id_created Int?
+  user_id_updated Int?
+  @@map("users_roles")
 }
 
-model Product{
-  id String @id @default(uuid())
-  name String
-  price String
-  description String
-  banner String
-  created_at DateTime? @default(now())
-  updated_at DateTime? @default(now())
+model Client {
+  id Int @id @default(autoincrement())
 
-  category Category @relation(fields: [category_id], references: [id])
+  user_id Int 
+  user User @relation( fields: [user_id], references: [id])
 
-  @@map("products")
-  category_id String
-  items Item[]
+  company_id Int 
+  company Company @relation( fields: [company_id], references: [id])
+
+  uuid String @default(uuid()) @db.VarChar(45)
+  name String @db.VarChar(255)
+  phone String @db.VarChar(45)
+  email String @db.VarChar(100)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  deleted_at DateTime? 
+  user_id_created Int?
+  user_id_updated Int?
+
+  agenda Agenda[]
+  @@map("clients")
 }
 
-model Order{
-  id String @id @default(uuid())
-  table Int
-  status Boolean @default(false)
-  draft Boolean @default(true)
-  name String?
+model ServiceCategorie {
+  id Int @id @default(autoincrement())
+  uuid String @default(uuid()) @db.VarChar(45)
+  name String @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  deleted_at DateTime? 
+  user_id_created Int?
+  user_id_updated Int?
 
-  created_at DateTime? @default(now())
-  updated_at DateTime? @default(now())
-
-  @@map("orders")
-  items Item[]
+  service Service[]
+  @@map("service_categories")
 }
 
-model Item{
-  id String @id @default(uuid())
-  amount Int
+model Service {
+  id Int @id @default(autoincrement())
+  service_category_id Int 
+  serviceCategorie ServiceCategorie @relation( fields: [service_category_id], references: [id])
+  uuid String @default(uuid()) @db.VarChar(45)
+  name String @db.VarChar(255)
+  price Decimal @db.Decimal(10, 2)
+  description String @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  deleted_at DateTime? 
+  user_id_created Int?
+  user_id_updated Int?
 
-  created_at DateTime? @default(now())
-  updated_at DateTime? @default(now())
+  characteristic Characteristic[]
+  agendaService AgendaService[]
 
-  order Order @relation(fields: [order_id], references: [id])
-  product Product @relation(fields: [product_id], references: [id])
+  @@map("service")
+}
 
-  @@map("items")
-  order_id String
-  product_id String
+model CharacteristicType {
+  id Int @id @default(autoincrement())
+  uuid String @default(uuid()) @db.VarChar(45)
+  name String @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  deleted_at DateTime? 
+  user_id_created Int?
+  user_id_updated Int?
 
+  characteristic Characteristic[]
+  @@map("characteristic_types")
+}
+
+model Characteristic {
+  id Int @id @default(autoincrement())
+  characteristic_type_id Int 
+  characteristicType CharacteristicType @relation( fields: [characteristic_type_id], references: [id])
+  service_id Int 
+  service Service @relation( fields: [service_id], references: [id])
+  uuid String @default(uuid()) @db.VarChar(45)
+  name String @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  deleted_at DateTime? 
+  user_id_created Int?
+  user_id_updated Int?
+
+  characteristicBraidTypeAgenda Agenda[] @relation("CharacteristicBraidTypeAgenda")
+  characteristicBraidSizeAgenda Agenda[] @relation("CharacteristicBraidSizeAgenda")
+  characteristicBraidThicknessAgenda Agenda[] @relation("CharacteristicBraidThicknessAgenda")
+  characteristicBraidMaterialAgenda Agenda[] @relation("CharacteristicBraidMaterialAgenda")
+
+  @@map("characteristic")
+}
+
+model FileType {
+  id Int @id @default(autoincrement())
+  uuid String @default(uuid()) @db.VarChar(45)
+  name String @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  deleted_at DateTime? 
+  user_id_created Int?
+  user_id_updated Int?
+
+  agendaFile AgendaFile[]
+  @@map("file_types")
+}
+
+model PaymentMethod {
+  id Int @id @default(autoincrement())
+  uuid String @default(uuid()) @db.VarChar(45)
+  name String @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  deleted_at DateTime? 
+  user_id_created Int?
+  user_id_updated Int?
+
+  agenda Agenda[]
+  agendaOnPaymentMethod AgendaOnPaymentMethod[]
+
+  @@map("payment_methods")
+}
+
+model Agenda {
+  id Int @id @default(autoincrement())
+  uuid String @default(uuid()) @db.VarChar(45)
+ 
+  client_id Int 
+  client Client @relation( fields: [client_id], references: [id])
+  company_id Int 
+  company Company @relation( fields: [company_id], references: [id])
+  user_id_owner Int 
+  user User @relation( fields: [user_id_owner], references: [id])
+  payment_method_id Int 
+  payment_method PaymentMethod @relation( fields: [payment_method_id], references: [id])
+  
+  characteristic_id_braid_type Int
+  characteristic_braid_type_agenda Characteristic @relation( "CharacteristicBraidTypeAgenda", fields: [characteristic_id_braid_type], references: [id])
+
+  characteristic_id_braid_size Int
+  characteristic_braid_size Characteristic @relation( "CharacteristicBraidSizeAgenda", fields: [characteristic_id_braid_size], references: [id])
+
+  characteristic_id_braid_thickness Int
+  characteristic_braid_thickness Characteristic @relation( "CharacteristicBraidThicknessAgenda", fields: [characteristic_id_braid_thickness], references: [id])
+  
+  characteristics_id_braid_material Int
+  characteristic_braid_material Characteristic @relation( "CharacteristicBraidMaterialAgenda", fields: [characteristics_id_braid_material], references: [id])
+
+  start DateTime @db.Date
+  end DateTime
+  duration String  @db.VarChar(12)
+  amount Decimal @db.Decimal(10, 2)
+  amount_signal Decimal @db.Decimal(10, 2)
+  fine_delay_amount Decimal @db.Decimal(10, 2)
+  fine_delay_observation String @db.Text
+  observation String @db.Text
+  customer_brings_hair customerBringsHairType @default(SIM)  
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  deleted_at DateTime? 
+  user_id_created Int?
+  user_id_updated Int?
+
+  agendaOnPaymentMethod AgendaOnPaymentMethod[]
+  agendaFile AgendaFile[]
+  agendaService AgendaService[]
+  agendaOnUser AgendaOnUser[]
+
+  @@map("agendas")
+}
+
+model AgendaOnPaymentMethod {
+  id Int @id @default(autoincrement())
+
+  agenda_id Int 
+  agenda Agenda @relation( fields: [agenda_id], references: [id])
+  payment_method_id Int 
+  payment PaymentMethod @relation( fields: [payment_method_id], references: [id])
+  uuid String @default(uuid()) @db.VarChar(45)
+  amount Decimal @db.Decimal(10, 2)
+  date_amount DateTime
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  deleted_at DateTime? 
+  user_id_created Int?
+  user_id_updated Int?
+  @@map("agendas_payment_methods")
+}
+
+model AgendaFile {
+  id Int @id @default(autoincrement())
+
+  agenda_id Int 
+  agenda Agenda @relation( fields: [agenda_id], references: [id])
+ 
+  file_type_id Int 
+  file_type FileType @relation( fields: [file_type_id], references: [id])
+
+  uuid String @default(uuid()) @db.VarChar(45)
+  name String @db.VarChar(255)
+  description String @db.Text
+  arquivo String @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  deleted_at DateTime? 
+  user_id_created Int?
+  user_id_updated Int?
+  @@map("agenda_files")
+}
+
+model AgendaService {
+  id Int @id @default(autoincrement())
+
+  agenda_id Int 
+  agenda Agenda @relation( fields: [agenda_id], references: [id])
+ 
+  service_id Int 
+  service Service @relation( fields: [service_id], references: [id])
+
+  price Decimal @db.Decimal(10, 2) 
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  deleted_at DateTime? 
+  user_id_created Int?
+  user_id_updated Int?
+  @@map("agenda_services")
+}
+
+model AgendaOnUser {
+  id Int @id @default(autoincrement())
+
+  agenda_id Int 
+  agenda Agenda @relation( fields: [agenda_id], references: [id])
+  user_id Int 
+  user User @relation( fields: [user_id], references: [id])
+  
+  uuid String @default(uuid()) @db.VarChar(45)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  deleted_at DateTime? 
+  user_id_created Int?
+  user_id_updated Int?
+  @@map("agendas_users")
+}
+
+enum ActiveType {
+  SIM
+  NAO
+}
+
+enum ValidType {
+  SIM
+  NAO
+}
+
+enum customerBringsHairType {
+  SIM
+  NAO
 }

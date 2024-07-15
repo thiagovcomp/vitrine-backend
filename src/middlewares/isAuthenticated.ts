@@ -1,11 +1,13 @@
 import {NextFunction, Request, Response} from 'express'
 import { verify } from 'jsonwebtoken'
 
+import { DetailUserService } from '../services/user/DetailUserService';
+
 interface Payload{
   sub: string;
 }
 
-export function isAuthenticated(
+export async function  isAuthenticated(
   req: Request,
   res: Response,
   next: NextFunction
@@ -29,14 +31,17 @@ export function isAuthenticated(
     ) as Payload;
 
     //Recuperar o id do token e colocar dentro de uma variavel user_id dentro do req.
-    req.user_id = sub;
+
+    const detailUserService = new DetailUserService();
+
+    const user =  await detailUserService.findId(sub);
+
+    req.user_id = user.id;
+    req.user_uuid = sub;
     
     return next();
 
   }catch(err){
     return res.status(401).end();
   }
-
-
-
 }

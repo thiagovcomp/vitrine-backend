@@ -4,24 +4,20 @@ import multer from 'multer';
 
 import { CreateUserController } from './controllers/user/CreateUserController';
 import { AuthUserController } from './controllers/user/AuthUserController'
-import { DetailuserController } from './controllers/user/DetailUserController'
+import { DetailUserController } from './controllers/user/DetailUserController'
+import { FindUserLessAnyLoggedController } from './controllers/user/FindUserLessAnyLoggedController'
 
-import { CreateCategoryController } from './controllers/category/CreateCategoryController'
-import { ListCategoryController } from './controllers/category/ListCategoryController'
+import { FindPaymentMethodController } from './controllers/payment_method/FindPaymentMethodController';
 
-import { CreateProductController } from './controllers/product/CreateProductController'
-import { ListByCategoryController } from './controllers/product/ListByCategoryController'
+import { FindCharacteristicTypeController } from './controllers/characteristic_type/FindCharacteristicTypeController';
+import { FindByCharacteristicTypeController } from './controllers/characteristic/FindByCharacteristicTypeController';
 
-import { CreateOrderController } from './controllers/order/CreateOrderController'
-import { RemoveOrderController } from './controllers/order/RemoveOrderController'
+import { CreateClientController } from './controllers/client/CreateClientController';
+import { FindClientController } from './controllers/client/FindClientController';
 
-import { AddItemController } from './controllers/order/AddItemController'
-import { RemoveItemController } from './controllers/order/RemoveItemController'
-import { SendOrderController } from './controllers/order/SendOrderController'
-
-import { ListOrdersController } from './controllers/order/ListOrdersController'
-import { DetailOrderController } from './controllers/order/DetailOrderController'
-import { FinishOrderController } from './controllers/order/FinishOrderController'
+import { CreateAgendaController } from './controllers/agenda/CreateAgendaController';
+import { FindAgendaController } from './controllers/agenda/FindAgendaController';
+import { DeleteAgendaController } from './controllers/agenda/DeleteAgendaController';
 
 
 import { isAuthenticated } from './middlewares/isAuthenticated'
@@ -37,30 +33,56 @@ router.post('/users', new CreateUserController().handle)
 
 router.post('/session', new AuthUserController().handle)
 
-router.get('/me', isAuthenticated,  new DetailuserController().handle )
+router.get('/me', isAuthenticated,  new DetailUserController().handle )
+router.get('/users/lessAnyLogged', isAuthenticated,  new FindUserLessAnyLoggedController().handle )
 
-//-- ROTAS CATEGORY
-router.post('/category', isAuthenticated, new CreateCategoryController().handle )
 
-router.get('/category', isAuthenticated, new ListCategoryController().handle )
+// Method payments
 
-//-- ROTAS PRODUCT
-router.post('/product', isAuthenticated, upload.single('file'), new CreateProductController().handle )
+router.get('/paymenth_methods', isAuthenticated,  new FindPaymentMethodController().handle )
 
-router.get('/category/product', isAuthenticated, new ListByCategoryController().handle )
+// characteristic types
 
-//-- ROTAS ORDER
-router.post('/order', isAuthenticated, new CreateOrderController().handle )
-router.delete('/order', isAuthenticated, new RemoveOrderController().handle )
+router.get('/characteristic_types', isAuthenticated,  new FindCharacteristicTypeController().handle )
 
-router.post('/order/add', isAuthenticated, new AddItemController().handle )
-router.delete('/order/remove', isAuthenticated, new RemoveItemController().handle )
+// characteristic types
+router.get('/characteristic/characteristic_types/', isAuthenticated,  new FindByCharacteristicTypeController().handle )
 
-router.put('/order/send', isAuthenticated, new SendOrderController().handle )
+// client
 
-router.get('/orders', isAuthenticated, new ListOrdersController().handle )
-router.get('/order/detail', isAuthenticated, new DetailOrderController().handle )
+router.post('/clients', isAuthenticated,  new CreateClientController().handle )
+router.get('/clients', isAuthenticated,  new FindClientController().handle )
+router.get('/clients/phone', isAuthenticated,  new FindClientController().findPhone )
 
-router.put('/order/finish', isAuthenticated, new FinishOrderController().handle )
+// client
+
+router.post('/agendas', isAuthenticated,  new CreateAgendaController().handle )
+router.get('/agendas', isAuthenticated,  new FindAgendaController().getPerStart )
+router.get('/agendas/id', isAuthenticated,  new FindAgendaController().getPerId )
+router.delete('/agendas', isAuthenticated,  new DeleteAgendaController().handle )
+
+// //-- ROTAS CATEGORY
+// router.post('/category', isAuthenticated, new CreateCategoryController().handle )
+
+// router.get('/category', isAuthenticated, new ListCategoryController().handle )
+
+// //-- ROTAS PRODUCT
+// router.post('/product', isAuthenticated, upload.single('file'), new CreateProductController().handle )
+
+// router.get('/category/product', isAuthenticated, new ListByCategoryController().handle )
+
+// //-- ROTAS ORDER
+// router.post('/order', isAuthenticated, new CreateOrderController().handle )
+// router.delete('/order', isAuthenticated, new RemoveOrderController().handle )
+
+// router.post('/order/add', isAuthenticated, new AddItemController().handle )
+// router.delete('/order/remove', isAuthenticated, new RemoveItemController().handle )
+
+// router.put('/order/send', isAuthenticated, new SendOrderController().handle )
+
+// router.get('/orders', isAuthenticated, new ListOrdersController().handle )
+// router.get('/order/detail', isAuthenticated, new DetailOrderController().handle )
+
+// router.put('/order/finish', isAuthenticated, new FinishOrderController().handle )
 
 export { router }; 

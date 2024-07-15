@@ -19,16 +19,15 @@ class AuthUserService{
     })
   
     if(!user){
-      throw new Error("User/password incorrect")
+      throw new Error("Usuário ou senha incorreto.")
     }
 
     // preciso verificar se a senha que ele mandou está correta.
     const passwordMatch = await compare(password, user.password)
 
     if(!passwordMatch){
-      throw new Error("User/password incorrect")
+      throw new Error("Usuário ou senha incorreto.")
     }
-
 
     // Se deu tudo certo vamos gerar o token pro usuario.
     const token = sign(
@@ -38,14 +37,13 @@ class AuthUserService{
       },
       process.env.JWT_SECRET,
       {
-        subject: user.id,
+        subject: user.uuid,
         expiresIn: '30d'
       }
     )
 
-
     return { 
-      id: user.id,
+      uuid: user.uuid,
       name: user.name,
       email: user.email,
       token: token
