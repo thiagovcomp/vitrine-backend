@@ -3,6 +3,11 @@ function retornarSoNumero(value: string)
   return value.replace(/\D/g, "")
 }
 
+function formatarValorParaBanco(valor: string)
+{
+  return valor.replace('.','').replace(',','.')
+}
+
 function pad(value) {
   return value.toString().padStart(2, 0);
 }
@@ -17,4 +22,4 @@ function retornarDataSemUtc(date: string)
   return dateFormat
 }
 
-export { retornarSoNumero, retornarDataSemUtc };
+export { retornarSoNumero, retornarDataSemUtc, formatarValorParaBanco };

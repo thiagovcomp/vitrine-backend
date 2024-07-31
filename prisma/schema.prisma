@@ -239,10 +239,10 @@ model Agenda {
   end DateTime
   duration String  @db.VarChar(12)
   amount Decimal @db.Decimal(10, 2)
-  amount_signal Decimal @db.Decimal(10, 2)
-  fine_delay_amount Decimal @db.Decimal(10, 2)
-  fine_delay_observation String @db.Text
-  observation String @db.Text
+  amount_signal Decimal? @db.Decimal(10, 2)
+  fine_delay_amount Decimal? @db.Decimal(10, 2)
+  fine_delay_observation String? @db.Text
+  observation String? @db.Text
   customer_brings_hair customerBringsHairType @default(SIM)  
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
@@ -346,3 +346,4 @@ enum customerBringsHairType {
   SIM
   NAO
 }
+

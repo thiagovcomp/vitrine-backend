@@ -5,8 +5,9 @@
   "license": "MIT",
   "scripts": {
     "start:timezone": "TZ='utc' node index.js",
-    "start": "TC=$tz node index.js",
-    "dev": "ts-node-dev --transpile-only src/server.ts"
+    "start": "TC=$tz node dist/index.js",
+    "dev": "ts-node-dev --transpile-only src/server.ts",
+    "build": "tsup src"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
@@ -15,6 +16,7 @@
     "@types/jsonwebtoken": "^9.0.6",
     "@types/multer": "^1.4.11",
     "ts-node-dev": "^2.0.0",
+    "tsup": "^8.2.3",
     "typescript": "^5.4.5"
   },
   "dependencies": {

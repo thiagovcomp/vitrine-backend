@@ -1,4 +1,4 @@
--- CreateTable
+ -- CreateTable
 CREATE TABLE `companys` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `uuid` VARCHAR(45) NOT NULL,

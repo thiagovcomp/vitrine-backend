@@ -71,6 +71,8 @@ class FindAgendaService{
           a.amount_signal AS amount_signal,
           FORMAT(a.amount_signal, 2, 'pt_BR') AS amount_signal_format,
           a.fine_delay_amount AS fine_delay_amount,
+          FORMAT(a.fine_delay_amount, 2, 'pt_BR') AS fine_delay_amount_format,
+          
           a.fine_delay_observation AS fine_delay_observation,
           a.observation AS observation,
           a.start AS start,
@@ -101,9 +103,12 @@ class FindAgendaService{
           JOIN users u ON u.id = au.user_id
           WHERE
             au.agenda_id = a.id
-            ) AS agendas_users
+            ) AS agendas_users,
+          u.name AS user_name_owner,
+          u.phone AS user_phone_owner
       FROM
           agendas a
+          JOIN users u ON u.id = a.user_id_owner
           JOIN clients c ON c.id = a.client_id
           JOIN payment_methods pm ON pm.id = a.payment_method_id
           JOIN characteristic cbs ON cbs.id = a.characteristic_id_braid_size
@@ -113,6 +118,12 @@ class FindAgendaService{
         WHERE
           a.id = ${id}
     `)
+
+    if (agendas[0].fine_delay_amount != undefined && agendas[0].fine_delay_amount != null) {
+      agendas[0].fine = true;
+    } else {
+      agendas[0].fine = false;
+    }
     return agendas[0] ?? [];
   }
 }

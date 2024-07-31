@@ -16,8 +16,11 @@ import { CreateClientController } from './controllers/client/CreateClientControl
 import { FindClientController } from './controllers/client/FindClientController';
 
 import { CreateAgendaController } from './controllers/agenda/CreateAgendaController';
+import { UpdateAgendaController } from './controllers/agenda/UpdateAgendaController';
 import { FindAgendaController } from './controllers/agenda/FindAgendaController';
 import { DeleteAgendaController } from './controllers/agenda/DeleteAgendaController';
+
+import { FindAgendaUserController } from './controllers/agenda_user/FindAgendaUserController';
 
 
 import { isAuthenticated } from './middlewares/isAuthenticated'
@@ -57,10 +60,12 @@ router.get('/clients/phone', isAuthenticated,  new FindClientController().findPh
 // client
 
 router.post('/agendas', isAuthenticated,  new CreateAgendaController().handle )
+router.put('/agendas', isAuthenticated,  new UpdateAgendaController().handle )
 router.get('/agendas', isAuthenticated,  new FindAgendaController().getPerStart )
 router.get('/agendas/id', isAuthenticated,  new FindAgendaController().getPerId )
 router.delete('/agendas', isAuthenticated,  new DeleteAgendaController().handle )
 
+router.get('/agenda_users', isAuthenticated,  new FindAgendaUserController().getPerAgenda)
 // //-- ROTAS CATEGORY
 // router.post('/category', isAuthenticated, new CreateCategoryController().handle )
 
