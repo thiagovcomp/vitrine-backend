@@ -7,7 +7,7 @@
   "scripts": {
     "start:timezone": "TZ='utc' node index.js",
     "start": "TC=$tz node dist/index.js",
-    "dev": "ts-node-dev --transpile-only src/server.ts",
+    "dev": "nodemon src/server.ts",
     "build": "tsup src"
   },
   "devDependencies": {
