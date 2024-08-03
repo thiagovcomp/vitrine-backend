@@ -8,7 +8,7 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "src/route.ts",
       "dest": "src/server.ts",
       "methods": [
           "GET",
