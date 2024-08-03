@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  
   "scripts": {
     "start:timezone": "TZ='utc' node index.js",
     "start": "TC=$tz node dist/index.js",
