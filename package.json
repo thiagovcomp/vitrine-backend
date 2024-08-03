@@ -6,7 +6,7 @@
   
   "scripts": {
     "start:timezone": "TZ='utc' node index.js",
-    "start": "TC=$tz node dist/index.js",
+    "start": "nodemon src/server.ts",
     "dev": "nodemon src/server.ts",
     "build": "tsup src"
   },
