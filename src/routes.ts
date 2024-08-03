@@ -29,43 +29,43 @@ import uploadConfig from './config/multer'
 
 const router = Router();
 
-const upload = multer(uploadConfig.upload("./tmp"));
+// const upload = multer(uploadConfig.upload("./tmp"));
 
 //-- ROTAS USER --
-router.post('/users', new CreateUserController().handle)
+// router.post('/users', new CreateUserController().handle)
 
 router.post('/session', new AuthUserController().handle)
 
-router.get('/me', isAuthenticated,  new DetailUserController().handle )
-router.get('/users/lessAnyLogged', isAuthenticated,  new FindUserLessAnyLoggedController().handle )
+// router.get('/me', isAuthenticated,  new DetailUserController().handle )
+// router.get('/users/lessAnyLogged', isAuthenticated,  new FindUserLessAnyLoggedController().handle )
 
 
-// Method payments
+// // Method payments
 
-router.get('/paymenth_methods', isAuthenticated,  new FindPaymentMethodController().handle )
+// router.get('/paymenth_methods', isAuthenticated,  new FindPaymentMethodController().handle )
 
-// characteristic types
+// // characteristic types
 
-router.get('/characteristic_types', isAuthenticated,  new FindCharacteristicTypeController().handle )
+// router.get('/characteristic_types', isAuthenticated,  new FindCharacteristicTypeController().handle )
 
-// characteristic types
-router.get('/characteristic/characteristic_types/', isAuthenticated,  new FindByCharacteristicTypeController().handle )
+// // characteristic types
+// router.get('/characteristic/characteristic_types/', isAuthenticated,  new FindByCharacteristicTypeController().handle )
 
-// client
+// // client
 
-router.post('/clients', isAuthenticated,  new CreateClientController().handle )
-router.get('/clients', isAuthenticated,  new FindClientController().handle )
-router.get('/clients/phone', isAuthenticated,  new FindClientController().findPhone )
+// router.post('/clients', isAuthenticated,  new CreateClientController().handle )
+// router.get('/clients', isAuthenticated,  new FindClientController().handle )
+// router.get('/clients/phone', isAuthenticated,  new FindClientController().findPhone )
 
-// client
+// // client
 
-router.post('/agendas', isAuthenticated,  new CreateAgendaController().handle )
-router.put('/agendas', isAuthenticated,  new UpdateAgendaController().handle )
-router.get('/agendas', isAuthenticated,  new FindAgendaController().getPerStart )
-router.get('/agendas/id', isAuthenticated,  new FindAgendaController().getPerId )
-router.delete('/agendas', isAuthenticated,  new DeleteAgendaController().handle )
+// router.post('/agendas', isAuthenticated,  new CreateAgendaController().handle )
+// router.put('/agendas', isAuthenticated,  new UpdateAgendaController().handle )
+// router.get('/agendas', isAuthenticated,  new FindAgendaController().getPerStart )
+// router.get('/agendas/id', isAuthenticated,  new FindAgendaController().getPerId )
+// router.delete('/agendas', isAuthenticated,  new DeleteAgendaController().handle )
 
-router.get('/agenda_users', isAuthenticated,  new FindAgendaUserController().getPerAgenda)
+// router.get('/agenda_users', isAuthenticated,  new FindAgendaUserController().getPerAgenda)
 // //-- ROTAS CATEGORY
 // router.post('/category', isAuthenticated, new CreateCategoryController().handle )
 
