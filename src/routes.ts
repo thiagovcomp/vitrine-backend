@@ -38,9 +38,7 @@ router.get("/", async function (req, res) {
 
 router.get("/user", async function (req, res) {
   //homepage route returns some HTML
-  res.send(`<h1>Reached home!user</h1> 
-            <br>
-            <a href='/books'>Books</a>`);
+  new CreateUserController().handle(req, res)
 });
 
 // const upload = multer(uploadConfig.upload("./tmp"));
