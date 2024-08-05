@@ -11,6 +11,7 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = "mysql://thiag4338_gobraids:fPU6TyEguzosSR8@148.113.153.60:3306/thiag4338_gobraids?schema=thiag4338_gobraids"
+  directUrl = "mysql://thiag4338_gobraids:fPU6TyEguzosSR8@148.113.153.60:3306/thiag4338_gobraids?schema=thiag4338_gobraids"
 }
 
 
