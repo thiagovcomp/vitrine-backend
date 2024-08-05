@@ -15,13 +15,25 @@ class CreateUserService{
     if(!email){
       throw new Error("Email obrigatório")
     }
+    try{
+        const userAlreadyExists = await prismaClient.user.findFirst({
+          where:{
+            email: email
+          }
+        })
+        prismaClient.$on("query", async (e) => {
+          console.log(`${e.query} ${e.params}`)
+        });
+
+    }catch(e) {
+      console.log('Erro banco')
+      console.log(e)
+    
+    }
+
+
  
     // //Verificar se esse email já está cadastrado na plataforma
-    const userAlreadyExists = await prismaClient.user.findFirst({
-      where:{
-        email: email
-      }
-    })
 
     // if(userAlreadyExists){
     //   throw new Error("Email já cadastrado.")
