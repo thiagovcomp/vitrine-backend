@@ -1,4 +1,4 @@
-// import prismaClient from '../../prisma'
+import prismaClient from '../../prisma'
 // import { hash } from 'bcryptjs'
 import { CreateCompanyService } from '../company/CreateCompanyService'
 
