@@ -12,9 +12,9 @@ class CreateUserService{
   async execute({ name, email, password }: UserRequest){
 
     // // verificar se ele enviou um email
-    // if(!email){
-    //   throw new Error("Email obrigatório")
-    // }
+    if(!email){
+      throw new Error("Email obrigatório")
+    }
  
     // //Verificar se esse email já está cadastrado na plataforma
     // const userAlreadyExists = await prismaClient.user.findFirst({
