@@ -28,7 +28,7 @@ import { isAuthenticated } from './middlewares/isAuthenticated'
 import uploadConfig from './config/multer'
 
 const router = Router();
-// const user = require("./users");
+const user = require("./users");
 router.get("/", async function (req, res) {
   //homepage route returns some HTML
   res.send(`<h1>Reached home!</h1> 
@@ -40,7 +40,7 @@ router.get("/", async function (req, res) {
 
 //-- ROTAS USER --
 // router.post('/users', new CreateUserController().handle)
-// router.use("/", user);
+router.use("/", user);
 // router.post('/session', new AuthUserController().handle)     
 
 // router.get('/me', isAuthenticated,  new DetailUserController().handle )
