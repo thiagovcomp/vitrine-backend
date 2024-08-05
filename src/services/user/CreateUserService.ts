@@ -17,11 +17,11 @@ class CreateUserService{
     }
  
     // //Verificar se esse email já está cadastrado na plataforma
-    // const userAlreadyExists = await prismaClient.user.findFirst({
-    //   where:{
-    //     email: email
-    //   }
-    // })
+    const userAlreadyExists = await prismaClient.user.findFirst({
+      where:{
+        email: email
+      }
+    })
 
     // if(userAlreadyExists){
     //   throw new Error("Email já cadastrado.")
